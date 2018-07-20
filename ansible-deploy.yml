@@ -1,0 +1,28 @@
+---
+- hosts: "{{ vhosts }}"
+  remote_user: debian
+
+  tasks:
+
+  - name: Deploy
+    block:
+      - docker_container:
+          name: "{{ app_name }}-{{ app_env }}"
+          state: absent
+      - docker_image:
+          name: "dhub.nexo.zone/{{ app_name }}:{{ app_ver }}.{{ app_env }}"
+          force: yes
+          state: absent
+      - docker_container:
+          image: "dhub.nexo.zone/{{ app_name }}:{{ app_ver }}.{{ app_env }}"
+          name: "{{ app_name }}-{{ app_env }}"
+          published_ports: "127.0.0.1:{{ app_port }}:{{ internal_port }}"
+          hostname: "{{ inventory_hostname[0:5] }}"
+          memory: 256m
+          restart_policy: unless-stopped
+          env:
+            APP_CONFIG_FILE: "development"
+            FLASK_ENV: "development"
+            FLASK_APP: "nisse"
+            FLASK_DEBUG: "0"
+          state: started
