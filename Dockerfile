@@ -7,7 +7,8 @@ COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip install -r requirements.txt
 RUN pip install flask-bcrypt
+RUN pip install gunicorn flask
 COPY . /app
 
-ENTRYPOINT [ "flask" ]
-CMD [ "run", "-h", "0.0.0.0", "-p", "5002" ]
+ENTRYPOINT [ "gunicorn" ]
+CMD [ "--bind=0.0.0.0:5002", "--workers=6", "--preload", "wsgi" ]
