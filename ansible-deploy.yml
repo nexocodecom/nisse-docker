@@ -21,8 +21,8 @@
           memory: 256m
           restart_policy: unless-stopped
           env:
-            APP_CONFIG_FILE: "production"
-            FLASK_ENV: "production"
+            APP_CONFIG_FILE: "{{ app_env }}"
+            FLASK_ENV: "{{ app_env }}"
             FLASK_APP: "nisse"
             FLASK_DEBUG: "0"
           state: started
