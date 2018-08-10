@@ -11,4 +11,4 @@ RUN pip install gunicorn flask
 COPY . /app
 
 ENTRYPOINT [ "gunicorn" ]
-CMD [ "--bind=0.0.0.0:5002", "--workers=6", "--preload", "wsgi" ]
+CMD [ "--bind=0.0.0.0:5002", "--workers=2", "--preload", "wsgi" ]
